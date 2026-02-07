@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Infinite 8 - Golden Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@300;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #ff4655;
+            --dark: #070b0f;
+            --dark-card: #0f1419;
+            --light: #ece8e1;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --gold-grad: linear-gradient(to bottom, #BF953F 0%, #FCF6BA 30%, #B38728 50%, #FBF5B7 70%, #AA771C 100%);
+            --gold-solid: #BF953F;
+        }
+
+        @keyframes fadeInPage {
+            from { opacity: 0; filter: blur(10px); }
+            to { opacity: 1; filter: blur(0); }
+        }
+
+        /* --- Critical Lock: ป้องกันการเลื่อนซ้ายขวา --- */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+            position: relative;
+            background-color: var(--dark);
+        }
+
+        /* คลาสพิเศษสำหรับล็อคการเลื่อนหน้าจอแบบเด็ดขาด */
+        .no-scroll {
+            overflow: hidden !important;
+            height: 100vh !important;
+            touch-action: none; /* ป้องกันการรูดบนมือถือ */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Anuphan', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            color: var(--light);
+            animation: fadeInPage 1.5s ease forwards;
+        }
+
+        /* --- Global --- */
+        .gold-grad {
+            background: var(--gold-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+            backdrop-filter: blur(5px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .logo-container img {
+            height: 80px;
+            filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.8));
+            transition: var(--transition);
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--light);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover { color: var(--gold-solid); }
+
+        /* --- Hamburger --- */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1100;
+            padding: 5px;
+        }
+
+        .hamburger div {
+            width: 22px;
+            height: 2px;
+            background-color: var(--light);
+            margin: 5px;
+            transition: var(--transition);
+        }
+
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100vh;
+            background: rgba(7, 11, 15, 0.98);
+            backdrop-filter: blur(15px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 1050;
+        }
+
+        .mobile-menu-overlay.active { right: 0; }
+
+        .menu-close-btn {
+            position: absolute;
+            top: 30px;
+            right: 5%;
+            font-size: 2.5rem;
+            color: var(--light);
+            cursor: pointer;
+            font-weight: 200;
+        }
+
+        .mobile-menu-overlay a {
+            text-decoration: none;
+            color: var(--light);
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: 0.4s ease;
+        }
+
+        .mobile-menu-overlay.active a { opacity: 1; transform: translateY(0); }
+        .mobile-menu-overlay a:nth-child(2) { transition-delay: 0.1s; }
+        .mobile-menu-overlay a:nth-child(3) { transition-delay: 0.2s; }
+        .mobile-menu-overlay a:nth-child(4) { transition-delay: 0.3s; }
+
+        /* --- Background --- */
+        .video-bg-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .hero-video {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: blur(10px) brightness(0.25) contrast(1.1);
+            transform: scale(1.05);
+        }
+
+        .hero-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, transparent 0%, rgba(0,0,0,0.8) 100%);
+            z-index: -1;
+        }
+
+        /* --- Hero --- */
+        .hero {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 5%;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 12vw, 7.5rem);
+            line-height: 0.9;
+            text-transform: uppercase;
+            font-weight: 800;
+            font-style: italic;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
+        }
+
+        .hero h1 span { display: block; margin-top: 5px; }
+
+        .hero p {
+            max-width: 600px;
+            font-size: clamp(1rem, 3vw, 1.25rem);
+            margin: 20px 0 40px;
+            color: rgba(236, 232, 225, 0.8);
+        }
+
+        .btn-group { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+
+        .val-btn {
+            padding: 16px 32px;
+            min-width: 160px;
+            background: var(--gold-grad);
+            color: #000;
+            text-decoration: none;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+            transition: var(--transition);
+        }
+
+        .val-btn.outline {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--gold-solid);
+            color: var(--gold-solid);
+        }
+
+        .val-btn:hover { transform: translateY(-5px) scale(1.05); filter: brightness(1.2); }
+
+        .bg-text {
+            position: absolute;
+            font-size: 20vw;
+            font-weight: 900;
+            opacity: 0.03;
+            bottom: 10%;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        /* --- News Section --- */
+        .news-section {
+            width: 100%;
+            padding: 80px 5%;
+            background: #0a0e12;
+            color: var(--light);
+            position: relative;
+            z-index: 10;
+            border-top: 1px solid rgba(191, 149, 63, 0.2);
+            box-shadow: 0 -20px 50px rgba(0,0,0,0.8);
+        }
+
+        .news-header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 40px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .news-header {
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-weight: 800;
+            border-left: 8px solid var(--gold-solid);
+            padding-left: 20px;
+            line-height: 1;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .news-card {
+            background: var(--dark-card);
+            border: 1px solid rgba(191, 149, 63, 0.1);
+            height: 100%;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .news-card:hover { 
+            transform: translateY(-10px); 
+            border-color: var(--gold-solid);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5); 
+        }
+
+        .news-img-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #000; }
+        .news-img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s; opacity: 0.8; }
+        .news-card:hover img { transform: scale(1.1); opacity: 1; }
+
+        .news-info { padding: 25px; flex-grow: 1; }
+        .news-meta { font-size: 0.75rem; font-weight: 700; margin-bottom: 12px; display: flex; gap: 15px; color: rgba(236, 232, 225, 0.5); }
+        .news-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 12px; line-height: 1.3; color: var(--light); }
+        .news-desc { font-size: 0.9rem; color: rgba(236, 232, 225, 0.7); line-height: 1.6; }
+
+        /* --- Modal --- */
+        .video-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .video-modal.active { display: flex; animation: fadeIn 0.3s ease; }
+
+        .modal-content {
+            width: 100%;
+            max-width: 1000px; /* ลดความกว้างลงเล็กน้อยเพื่อให้ดูสมดุล */
+            margin: auto;
+            position: relative;
+            background: #000;
+            box-shadow: 0 0 50px rgba(0,0,0,1);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            border: 1px solid rgba(191, 149, 63, 0.3);
+        }
+
+        /* ปรับสไตล์สำหรับ YouTube Iframe */
+        .video-container iframe {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border: none;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            color: #fff;
+            font-size: 35px;
+            cursor: pointer;
+            z-index: 2100;
+            transition: 0.3s;
+        }
+        
+        .modal-close:hover { color: var(--gold-solid); }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hamburger { display: block; }
+            .news-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 4.5rem; }
+            .logo-container img { height: 60px; }
+            .modal-content { width: 95%; }
+            .modal-close { top: -45px; right: -5px; }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .modal-content { width: 90%; }
+            .news-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="video-bg-container">
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="aura.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+    </div>
+
+    <nav id="navbar">
+        <div class="logo-container">
+            <img src="logo.png" alt="Logo" id="navLogo">
+        </div>
+        <ul class="nav-links">
+            <li><a href="#news">นโยบาย</a></li>
+            <li><a href="#news">ข่าวสาร</a></li>
+            <li><a href="#">IG</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger">
+            <div></div><div></div><div></div>
+        </div>
+    </nav>
+
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <div class="menu-close-btn" onclick="toggleMenu()">&times;</div>
+        <a href="#news" onclick="toggleMenu()">นโยบาย</a>
+        <a href="#news" onclick="toggleMenu()">ข่าวสาร</a>
+        <a href="#" onclick="toggleMenu()">Instagram</a>
+    </div>
+
+    <section class="hero">
+        <span class="bg-text">INFINITE</span>
+        <h1>Infinite<br><span class="gold-grad">8</span></h1>
+        <p>"ไม่ใช่แค่ตัวแทน แต่คือการ <span class="gold-grad" style="font-weight: 800;">เปลี่ยนแปลง</span> "</p>
+        <div class="btn-group">
+            <a href="#news" class="val-btn">นโยบายต่างๆ</a>
+            <a href="javascript:void(0)" class="val-btn outline" id="play-video">คลิปโปรโมท</a>
+        </div>
+    </section>
+
+    <div class="video-modal" id="videoModal">
+        <div class="modal-content">
+            <div class="modal-close">&times;</div>
+            <div class="video-container">
+                <iframe 
+                    id="ytVideo"
+                    src="" 
+                    title="Infinite 8 Promo" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </div>
+
+    <section class="news-section" id="news">
+        <div class="news-header-container">
+            <h2 class="news-header">นโยบายของ <span class="gold-grad">Infinite 8</span></h2>
+        </div>
+
+        <div class="news-grid">
+            <a href="page1.html" style="text-decoration:none; color:inherit;">
+                <div class="news-card">
+                    <div class="news-img-box"><img src="game.png" alt="game"></div>
+                    <div class="news-info">
+                        <div class="news-meta"><span style="color:var(--gold-solid)">นโยบาย</span><span>By Infinite 8</span></div>
+                        <h3 class="news-title">ยระดับความมันส์ของ E-Sports</h3>
+                        <p class="news-desc">ปรับปรุงระบบการแข่งขัน เพื่อความมันส์และความสนุกระดับสากล</p>
+                    </div>
+                </div>
+            </a>
+            <a href="page2.html" style="text-decoration:none; color:inherit;">
+                <div class="news-card">
+                    <div class="news-img-box"><img src="ac.png" alt="mv"></div>
+                    <div class="news-info">
+                        <div class="news-meta"><span style="color:var(--gold-solid)">นโยบาย</span><span>By Infinite 8</span></div>
+                        <h3 class="news-title">การจัดกิจกรรมเพื่อความสนุกและพัฒนาทักษะ </h3>
+                        <p class="news-desc">เป็นการส่งต่อกิจกรรมจากรุ่นที่แล้ว เช่น พี่ผูกไทให้น้อง , Cover Dance , Rock No Drug และเพิ่มกิจกรรมต่างๆที่ส่งเสริมทักษะและความกล้าแสดงออก</p>
+                    </div>
+                </div>
+            </a>
+            <a href="page3.html" style="text-decoration:none; color:inherit;">
+                <div class="news-card">
+                    <div class="news-img-box"><img src="https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/bltd605a968a9805988/65a7f98888b7762699763784/VAL_PatchNotes_12.01_Banner.jpg" alt="patch"></div>
+                    <div class="news-info">
+                        <div class="news-meta"><span style="color:var(--gold-solid)">DIGITAL</span><span>01 FEB 2026</span></div>
+                        <h3 class="news-title">ก้าวสู่ยุคดิจิทัลอย่างยั่งยืน</h3>
+                        <p class="news-desc">เปิด Roadmap การพัฒนาโครงสร้างพื้นฐานด้านเทคโนโลยีเพื่อประชาชน</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <script>
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            const logo = document.getElementById('navLogo');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(7, 11, 15, 0.98)';
+                nav.style.padding = '10px 5%';
+                logo.style.height = '60px';
+            } else {
+                nav.style.background = 'linear-gradient(to bottom, rgba(0,0,0,0.9), transparent)';
+                nav.style.padding = '20px 5%';
+                logo.style.height = '80px';
+            }
+        });
+
+        // Hamburger Menu Logic
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('active');
+            if(mobileMenu.classList.contains('active')) {
+                document.body.classList.add('no-scroll');
+            } else {
+                document.body.classList.remove('no-scroll');
+            }
+        }
+
+        hamburger.addEventListener('click', toggleMenu);
+
+        // Video Modal Logic สำหรับ YouTube
+        const playBtn = document.getElementById('play-video');
+        const modal = document.getElementById('videoModal');
+        const closeBtn = document.querySelector('.modal-close');
+        const iframe = document.getElementById('ytVideo');
+        
+        // YouTube Embed URL (ใช้ autoplay=1 เพื่อให้เล่นทันทีเมื่อกด)
+        const youtubeUrl = "https://www.youtube.com/embed/q3_AXZVf2_8?autoplay=1&rel=0";
+
+        playBtn.addEventListener('click', () => {
+            modal.classList.add('active');
+            iframe.src = youtubeUrl; // ใส่ URL เมื่อกดเปิด
+            document.body.classList.add('no-scroll');
+            document.documentElement.classList.add('no-scroll');
+        });
+
+        const closeModal = () => {
+            modal.classList.remove('active');
+            iframe.src = ""; // ล้าง URL เพื่อให้วิดีโอหยุดเล่น
+            if (!mobileMenu.classList.contains('active')) {
+                document.body.classList.remove('no-scroll');
+                document.documentElement.classList.remove('no-scroll');
+            }
+        };
+
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+    </script>
+</body>
+</html>
