@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infinite 8 - Page 3 - กฎกติกาและการแข่งขัน</title>
+    <title>ยกระดับ E-Sports - Infinite 8 Golden Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@300;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -14,7 +14,6 @@
             --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             --gold-grad: linear-gradient(to bottom, #BF953F 0%, #FCF6BA 30%, #B38728 50%, #FBF5B7 70%, #AA771C 100%);
             --gold-solid: #BF953F;
-            --blue: #1e90ff;
         }
 
         * {
@@ -38,7 +37,7 @@
             padding: 15px 5%;
             background: rgba(15, 25, 35, 0.98);
             border-bottom: 1px solid rgba(191, 149, 63, 0.4);
-            position: sticky; top: 0; z-index: 1000;
+            
         }
 
         .nav-logo { text-decoration: none; font-weight: 800; font-style: italic; font-size: 1.2rem; color: #fff; }
@@ -63,65 +62,81 @@
         }
         .policy-row.reverse { flex-direction: row-reverse; }
 
-        /* --- Image/Media Frame --- */
+        /* --- Image/Video Frame --- */
         .image-frame {
             flex: 1; position: relative; border: 1px solid rgba(191, 149, 63, 0.3);
             padding: 10px; background: rgba(255,255,255,0.05); overflow: hidden;
             aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center;
-            width: 100%;
         }
-        .image-frame img, .image-frame video { 
+        .image-frame video, .image-frame img { 
             width: 100%; height: 100%; display: block; object-fit: cover; transition: 0.5s; 
         }
-        .image-frame:hover img { transform: scale(1.05); }
+        .image-frame video { opacity: 0.6; }
+        .image-frame:hover video { opacity: 1; transform: scale(1.05); }
 
         .image-frame::before {
             content: ""; position: absolute; top: -5px; left: -5px; width: 20px; height: 20px;
             border-top: 3px solid var(--gold-solid); border-left: 3px solid var(--gold-solid); z-index: 2;
         }
 
-        /* --- Typography & Responsive Classes --- */
-        .text-content { flex: 1; width: 100%; }
+        /* --- Typography --- */
+        .text-content { flex: 1; }
         .gold-tag { color: var(--gold-solid); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; display: block; font-size: 0.9rem; }
         .policy-title { 
             font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 800; text-transform: uppercase; 
-            line-height: 1.1; margin-bottom: 25px; font-style: italic; 
+            line-height: 1; margin-bottom: 25px; font-style: italic; 
         }
         .policy-desc { 
-            font-size: clamp(0.95rem, 1.8vw, 1.05rem); color: #a3a3a3; line-height: 1.8; 
+            font-size: clamp(1rem, 2vw, 1.1rem); color: #a3a3a3; line-height: 1.8; 
             margin-bottom: 30px; border-left: 3px solid var(--gold-solid); padding-left: 20px; 
-            text-align: left;
         }
-
-        .pc-only { display: inline; }
-        .mobile-only { display: none; }
         .neon { color: #fff; text-shadow: 0 0 10px rgba(191, 149, 63, 0.4); }
 
-        /* --- Play Button Styled --- */
+        /* --- แก้ไขปุ่มตามรูปภาพ (Square Outline Gold) --- */
         .play-btn-inline {
             background: transparent;
             color: var(--gold-solid);
             border: 1.5px solid var(--gold-solid);
-            padding: 12px 30px;
+            padding: 12px 35px;
             font-weight: 700;
             text-transform: uppercase;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 12px;
-            border-radius: 0;
             transition: var(--transition);
+            letter-spacing: 1px;
+            font-size: 1rem;
         }
-        .play-btn-inline span { font-size: 1.2rem; }
-        .play-btn-inline:hover { background: rgba(191, 149, 63, 0.1); transform: translateY(-3px); }
+        
+        /* สัญลักษณ์สามเหลี่ยมเล่นวิดีโอ */
+        .play-btn-inline span {
+            font-size: 1.2rem;
+            display: inline-block;
+            transform: translateY(-1px);
+        }
+
+        .play-btn-inline:hover {
+            background: rgba(191, 149, 63, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(191, 149, 63, 0.2);
+        }
 
         /* --- Special Banner --- */
         .special-banner { 
-            background: #ece8e1; color: #0f1923; padding: 60px 8%; margin: 50px -5%; 
-            display: flex; flex-wrap: wrap; align-items: center; gap: 40px; 
-            border-top: 2px solid var(--gold-solid); border-bottom: 2px solid var(--gold-solid);
+            background: #ece8e1; 
+            color: #0f1923; 
+            padding: 60px 8%; 
+            margin: 50px -5%; 
+            display: flex; 
+            flex-wrap: wrap; 
+            align-items: center; 
+            gap: 40px; 
+            border-top: 2px solid var(--gold-solid);
+            border-bottom: 2px solid var(--gold-solid);
         }
-        .special-banner h2 { font-size: clamp(2rem, 6vw, 3rem); font-weight: 900; line-height: 1; text-transform: uppercase; }
+        .special-banner h2 { font-size: 3rem; font-weight: 900; line-height: 1; }
+        .special-banner p { font-size: 1.1rem; margin-bottom: 20px; font-weight: 600; color: #333; }
 
         /* --- Video Modal --- */
         .video-modal {
@@ -131,13 +146,16 @@
             opacity: 0; transition: opacity 0.4s ease;
         }
         .video-modal.active { display: flex; opacity: 1; }
+
         .modal-content {
-            position: relative; width: 100%; max-width: 800px; aspect-ratio: 16 / 9; 
+            position: relative; width: 100%; 
+            max-width: 800px; max-height: 80vh; aspect-ratio: 16 / 9; 
             border: 1.5px solid var(--gold-solid); background: #000;
             transform: scale(0.9); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .video-modal.active .modal-content { transform: scale(1); }
-        .modal-content iframe, .modal-content video { width: 100%; height: 100%; display: block; }
+        .modal-content video { width: 100%; height: 100%; display: block; object-fit: contain; }
+
         .close-modal {
             position: absolute; top: -35px; right: 0; color: var(--gold-solid);
             font-size: 1rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px;
@@ -145,80 +163,74 @@
 
         /* --- Media Queries --- */
         @media (max-width: 850px) {
-            .policy-row, .policy-row.reverse { flex-direction: column; text-align: center; gap: 30px; margin-bottom: 70px; }
-            .policy-desc { border-left: none; padding-left: 0; max-width: 650px; margin: 0 auto 30px auto; text-align: center; }
-            .pc-only { display: none !important; }
-            .mobile-only { display: inline !important; }
-            .image-frame { order: -1; width: 100%; max-width: 600px; margin: 0 auto; }
-            .special-banner { text-align: center; justify-content: center; }
-            .special-banner h2 { width: 100%; }
+            .policy-row, .policy-row.reverse { flex-direction: column; text-align: center; gap: 30px; }
+            .policy-desc { border-left: none; padding-left: 0; max-width: 600px; margin: 0 auto 30px auto; }
+            .image-frame { order: -1; width: 100%; }
         }
     </style>
 </head>
 <body>
 
     <nav>
-        <a href="index.html" class="nav-logo">INFINITE <span style="color: var(--gold-solid);">8</span></a>
-        <a href="index.html" class="back-link">หน้าหลัก</a>
+        <a href="Home.html" class="nav-logo">INFINITE <span style="color: var(--gold-solid);">8</span></a>
+        <a href="Home.html" class="back-link">กลับหน้าหลัก</a>
     </nav>
-
-    <div id="videoModal" class="video-modal">
-        <div class="modal-content">
-            <div class="close-modal" onclick="closeVideo()">&times; <span>CLOSE</span></div>
-            <iframe id="youtubePlayer" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="display:none;"></iframe>
-            <video id="localPlayer" controls style="display:none;"></video>
-        </div>
-    </div>
 
     <div class="container">
         
         <section class="policy-row">
             <div class="text-content">
-                <span class="gold-tag">01 // FUTURE FOR YOU</span>
-                <h2 class="policy-title">แนะแนว<span style="background: var(--gold-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">อนาคต</span></h2>
+                <span class="gold-tag">01 // THE LINEUP</span>
+                <h2 class="policy-title">ไลน์อัพ<span style="background: var(--gold-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">เกม</span></h2>
                 <p class="policy-desc">
-                    <span class="neon">ก้าวแรกสู่มหาวิทยาลัยที่มั่นใจกว่าเดิม</span><br class="pc-only">
-                    โครงการแนะแนวการศึกษาและเตรียมความพร้อมมหาวิทยาลัย <br class="pc-only">
-                    <span class="pc-only">จัดขึ้นเพื่อช่วยให้นักเรียนเข้าใจเส้นทางอนาคตของตัวเองมากขึ้น <br class="pc-only">ว่าถ้าอยากเข้ามหาลัยต้องเตรียมอะไรบ้าง</span>
+                    <span class="neon">Valorant, Free Fire, Rov, Roblox, Mobile Legends,<br> e-Football และอื่นๆ</span><br>
+                    เราไม่ได้มองว่าเกมเป็นเพียงความบันเทิง <br>แต่คือโครงสร้างพื้นฐานใหม่ที่จะขับเคลื่อนความสนุก
                 </p>
-                <button class="play-btn-inline" onclick="openVideo('V3iJK6VlJbQ')">
+                <button class="play-btn-inline" onclick="openVideo('game2.mp4')">
                     <span>▶</span> รับชมวิดีโอ
                 </button>
             </div>
-            
             <div class="image-frame">
                 <video autoplay muted loop playsinline>
-                    <source src="study.mp4" type="video/mp4">
+                    <source src="game2.mp4" type="video/mp4">
                 </video>
             </div>
         </section>
 
         <section class="special-banner">
-            <h2>ค้นหาตัวตน <br>& พัฒนาศักยภาพ</h2>
+            <h2>การรับสมัคร</h2>
             <div style="flex: 1.5; min-width: 250px;">
-                <p>กิจกรรมที่ออกแบบมาเพื่อดึงจุดเด่น <br>และสร้างแรงบันดาลใจให้ไปถึงฝัน</p>
+                <p>สมัครง่ายๆผ่านการสแกน Qr Code <br>หรือการกรอกผ่าน Google Form</p>
             </div>
         </section>
 
         <section class="policy-row reverse">
             <div class="text-content">
-                <span class="gold-tag">02 // OTHER</span>
-                <h2 class="policy-title">นโยบาย<span style="color: var(--gold-solid);">อื่นๆ</span></h2>
+                <span class="gold-tag">02 // THE EXPERIENCE</span>
+                <h2 class="policy-title">ยกระดับ<span style="color: var(--gold-solid);">ความมันส์</span></h2>
                 <p class="policy-desc">
-                    เปิดโอกาสให้ถามคำถามตรง ๆ และรับฟังความคิดเห็นจาก<span style="color: var(--blue);">เพื่อน ๆ </span><span style="color: var(--light);">พี่ ๆ</span><span style="color: var(--primary);"> น้อง ๆ</span> ทุกระดับชั้น <br class="pc-only">
-                    เพื่อนำไปพัฒนาให้ตรงใจมากที่สุด
+                    ยกระดับ E-Sports ในโรงเรียน สู่ความมันส์ <br>สร้างทั้งแรงบันดาลใจ ความมั่นใจ 
+                    <br>พร้อมการพากย์สุดมันส์และของรางวัลแก่ผู้ชนะ
                 </p>
-                <button class="play-btn-inline" onclick="openVideo('final.mp4')">
+                <button class="play-btn-inline" onclick="openVideo('game3.mp4')">
                     <span>▶</span> รับชมวิดีโอ
                 </button>
             </div>
-            
             <div class="image-frame">
                 <video autoplay muted loop playsinline>
-                    <source src="final.mp4" type="video/mp4">
+                    <source src="game3.mp4" type="video/mp4">
                 </video>
             </div>
         </section>
+    </div>
+
+    <div id="videoModal" class="video-modal">
+        <div class="modal-content">
+            <div class="close-modal" onclick="closeVideo()">&times; <span>CLOSE</span></div>
+            <video id="fullVideo" controls>
+                <source src="" type="video/mp4">
+            </video>
+        </div>
     </div>
 
     <footer style="text-align: center; padding: 40px; color: #555; font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.05);">
@@ -227,40 +239,27 @@
 
     <script>
         const modal = document.getElementById("videoModal");
-        const youtubePlayer = document.getElementById("youtubePlayer");
-        const localPlayer = document.getElementById("localPlayer");
+        const video = document.getElementById("fullVideo");
 
-        function openVideo(source) {
-            modal.style.display = "flex";
-            
-            if (source.includes('.mp4')) {
-                // กรณีเป็นไฟล์วิดีโอ
-                youtubePlayer.style.display = "none";
-                localPlayer.style.display = "block";
-                localPlayer.src = source;
-                localPlayer.play();
-            } else {
-                // กรณีเป็น YouTube ID
-                localPlayer.style.display = "none";
-                youtubePlayer.style.display = "block";
-                youtubePlayer.src = "https://www.youtube.com/embed/" + source + "?autoplay=1";
+        function openVideo(videoSrc) {
+            if (videoSrc) {
+                const videoSource = video.querySelector('source');
+                videoSource.src = videoSrc;
+                video.load(); // โหลดไฟล์ใหม่ตามที่ส่งมาใน parameter
             }
-
+            
+            modal.style.display = "flex";
             setTimeout(() => { modal.classList.add("active"); }, 10);
-            document.body.style.overflow = "hidden"; 
+            video.play();
+            video.muted = false;
         }
 
         function closeVideo() {
             modal.classList.remove("active");
-            
-            // หยุดการทำงานวิดีโอทั้งสองแบบ
-            youtubePlayer.src = ""; 
-            localPlayer.pause();
-            localPlayer.src = "";
-
+            video.pause();
             setTimeout(() => {
                 modal.style.display = "none";
-                document.body.style.overflow = "auto"; 
+                video.currentTime = 0;
             }, 400); 
         }
 
@@ -268,5 +267,6 @@
             if (event.target == modal) { closeVideo(); }
         }
     </script>
+
 </body>
 </html>
