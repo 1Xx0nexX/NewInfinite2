@@ -73,14 +73,13 @@
         }
         .image-frame video { opacity: 0.6; }
         .image-frame:hover video { opacity: 1; transform: scale(1.05); }
-        .image-frame:hover img { transform: scale(1.05); }
 
         .image-frame::before {
             content: ""; position: absolute; top: -5px; left: -5px; width: 20px; height: 20px;
             border-top: 3px solid var(--gold-solid); border-left: 3px solid var(--gold-solid); z-index: 2;
         }
 
-        /* --- Typography (Responsive) --- */
+        /* --- Typography --- */
         .text-content { flex: 1; }
         .gold-tag { color: var(--gold-solid); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; display: block; font-size: 0.9rem; }
         .policy-title { 
@@ -93,17 +92,37 @@
         }
         .neon { color: #fff; text-shadow: 0 0 10px rgba(191, 149, 63, 0.4); }
 
-        /* --- Buttons --- */
+        /* --- แก้ไขปุ่มตามรูปภาพ (Square Outline Gold) --- */
         .play-btn-inline {
-            background: var(--gold-grad); color: #000; border: none; padding: 12px 30px;
-            font-weight: 800; text-transform: uppercase; cursor: pointer;
-            
-            display: inline-flex; align-items: center; gap: 10px;
-            border-radius: 50px;
+            background: transparent;
+            color: var(--gold-solid);
+            border: 1.5px solid var(--gold-solid);
+            padding: 12px 35px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: var(--transition);
+            letter-spacing: 1px;
+            font-size: 1rem;
         }
-        .play-btn-inline:hover { background: #fff; transform: scale(1.05); box-shadow: 0 0 20px rgba(255,255,255,0.4); }
+        
+        /* สัญลักษณ์สามเหลี่ยมเล่นวิดีโอ */
+        .play-btn-inline span {
+            font-size: 1.2rem;
+            display: inline-block;
+            transform: translateY(-1px);
+        }
 
-        /* --- Special Banner (Theme: Light Cream & Dark Text) --- */
+        .play-btn-inline:hover {
+            background: rgba(191, 149, 63, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(191, 149, 63, 0.2);
+        }
+
+        /* --- Special Banner --- */
         .special-banner { 
             background: #ece8e1; 
             color: #0f1923; 
@@ -116,18 +135,8 @@
             border-top: 2px solid var(--gold-solid);
             border-bottom: 2px solid var(--gold-solid);
         }
-        
         .special-banner h2 { font-size: 3rem; font-weight: 900; line-height: 1; }
-        
         .special-banner p { font-size: 1.1rem; margin-bottom: 20px; font-weight: 600; color: #333; }
-
-        .btn-dark { 
-            display: inline-block; padding: 15px 40px; 
-            background: #0f1923; color: #ece8e1; 
-            text-decoration: none; font-weight: 800; 
-            text-transform: uppercase; transition: 0.3s; 
-        }
-        .btn-dark:hover { background: var(--gold-solid); color: #000; transform: translateY(-3px); }
 
         /* --- Video Modal --- */
         .video-modal {
@@ -157,23 +166,13 @@
             .policy-row, .policy-row.reverse { flex-direction: column; text-align: center; gap: 30px; }
             .policy-desc { border-left: none; padding-left: 0; max-width: 600px; margin: 0 auto 30px auto; }
             .image-frame { order: -1; width: 100%; }
-            .special-banner { text-align: center; justify-content: center; }
-            .special-banner h2 { width: 100%; font-size: 2.5rem; }
-            .play-btn-inline { justify-content: center; }
-        }
-
-        @media (max-width: 480px) {
-            .container { padding: 30px 5%; }
-            .policy-title { font-size: 2rem; }
-            .video-modal { padding: 10px; }
-            .close-modal { top: -30px; }
         }
     </style>
 </head>
 <body>
 
     <nav>
-        <a href="index.html" class="nav-logo">INFINITE <span style="color: var(--gold-grad);">8</span></a>
+        <a href="index.html" class="nav-logo">INFINITE <span style="color: var(--gold-solid);">8</span></a>
         <a href="index.html" class="back-link">กลับหน้าหลัก</a>
     </nav>
 
@@ -184,34 +183,24 @@
                 <span class="gold-tag">01 // THE LINEUP</span>
                 <h2 class="policy-title">ไลน์อัพ<span style="background: var(--gold-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">เกม</span></h2>
                 <p class="policy-desc">
-                    <span class="neon">Valorant, Free Fire, Rov, Roblox, Mobile Legends, e-Football และอื่นๆ</span><br>
+                    <span class="neon">Valorant, Free Fire, Rov, Roblox, Mobile Legends,<br> e-Football และอื่นๆ</span><br>
                     เราไม่ได้มองว่าเกมเป็นเพียงความบันเทิง <br>แต่คือโครงสร้างพื้นฐานใหม่ที่จะขับเคลื่อนความสนุก
                 </p>
-                <button class="play-btn-inline" onclick="openVideo()">
+                <button class="play-btn-inline" onclick="openVideo('game2.mp4')">
                     <span>▶</span> รับชมวิดีโอ
                 </button>
             </div>
             <div class="image-frame">
                 <video autoplay muted loop playsinline>
-                    <source src="game.mp4" type="video/mp4">
+                    <source src="game2.mp4" type="video/mp4">
                 </video>
             </div>
         </section>
 
-        <div id="videoModal" class="video-modal">
-            <div class="modal-content">
-                <div class="close-modal" onclick="closeVideo()">&times; <span>CLOSE</span></div>
-                <video id="fullVideo" controls>
-                    <source src="game.mp4" type="video/mp4">
-                </video>
-            </div>
-        </div>
-
         <section class="special-banner">
             <h2>การรับสมัคร</h2>
             <div style="flex: 1.5; min-width: 250px;">
-                <p>สมัครง่ายๆผ่านการสแกน Qr Code <br>หรือการกรอก Google Form</p>
-            
+                <p>สมัครง่ายๆผ่านการสแกน Qr Code <br>หรือการกรอกผ่าน Google Form</p>
             </div>
         </section>
 
@@ -223,14 +212,25 @@
                     ยกระดับ E-Sports ในโรงเรียน สู่ความมันส์ <br>สร้างทั้งแรงบันดาลใจ ความมั่นใจ 
                     <br>พร้อมการพากย์สุดมันส์และของรางวัลแก่ผู้ชนะ
                 </p>
-                <br>
-                <a href="#" class="btn-dark" style="border: 1px solid var(--gold-solid); background: transparent; color: var(--gold-solid);">⭡</a>
+                <button class="play-btn-inline" onclick="openVideo('game3.mp4')">
+                    <span>▶</span> รับชมวิดีโอ
+                </button>
             </div>
             <div class="image-frame">
-                <img src="esports.png" alt="esports">
+                <video autoplay muted loop playsinline>
+                    <source src="game3.mp4" type="video/mp4">
+                </video>
             </div>
         </section>
+    </div>
 
+    <div id="videoModal" class="video-modal">
+        <div class="modal-content">
+            <div class="close-modal" onclick="closeVideo()">&times; <span>CLOSE</span></div>
+            <video id="fullVideo" controls>
+                <source src="" type="video/mp4">
+            </video>
+        </div>
     </div>
 
     <footer style="text-align: center; padding: 40px; color: #555; font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.05);">
@@ -241,7 +241,13 @@
         const modal = document.getElementById("videoModal");
         const video = document.getElementById("fullVideo");
 
-        function openVideo() {
+        function openVideo(videoSrc) {
+            if (videoSrc) {
+                const videoSource = video.querySelector('source');
+                videoSource.src = videoSrc;
+                video.load(); // โหลดไฟล์ใหม่ตามที่ส่งมาใน parameter
+            }
+            
             modal.style.display = "flex";
             setTimeout(() => { modal.classList.add("active"); }, 10);
             video.play();

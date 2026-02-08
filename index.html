@@ -33,11 +33,10 @@
             background-color: var(--dark);
         }
 
-        /* คลาสพิเศษสำหรับล็อคการเลื่อนหน้าจอแบบเด็ดขาด */
         .no-scroll {
             overflow: hidden !important;
             height: 100vh !important;
-            touch-action: none; /* ป้องกันการรูดบนมือถือ */
+            touch-action: none;
         }
 
         * {
@@ -53,7 +52,6 @@
             animation: fadeInPage 1.5s ease forwards;
         }
 
-        /* --- Global --- */
         .gold-grad {
             background: var(--gold-grad);
             -webkit-background-clip: text;
@@ -66,7 +64,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 5%;
+            padding: 15px 5%; /* ปรับ padding ให้โลโก้มีพื้นที่ขยาย */
             background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
             backdrop-filter: blur(5px);
             position: fixed;
@@ -78,7 +76,8 @@
         }
 
         .logo-container img {
-            height: 80px;
+            /* ปรับ Logo ให้ใหญ่ขึ้นในทุกหน้าจอ: มือถือเริ่มที่ 100px, ไอแพด ~130px, คอมสูงสุด 160px */
+            height: clamp(100px, 15vw, 160px); 
             filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.8));
             transition: var(--transition);
             object-fit: contain;
@@ -102,7 +101,6 @@
 
         .nav-links a:hover { color: var(--gold-solid); }
 
-        /* --- Hamburger --- */
         .hamburger {
             display: none;
             cursor: pointer;
@@ -331,7 +329,7 @@
 
         .modal-content {
             width: 100%;
-            max-width: 1000px; /* ลดความกว้างลงเล็กน้อยเพื่อให้ดูสมดุล */
+            max-width: 1000px;
             margin: auto;
             position: relative;
             background: #000;
@@ -341,11 +339,10 @@
         .video-container {
             position: relative;
             width: 100%;
-            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            padding-top: 56.25%;
             border: 1px solid rgba(191, 149, 63, 0.3);
         }
 
-        /* ปรับสไตล์สำหรับ YouTube Iframe */
         .video-container iframe {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -373,14 +370,17 @@
             .hamburger { display: block; }
             .news-grid { grid-template-columns: 1fr; }
             .hero h1 { font-size: 4.5rem; }
-            .logo-container img { height: 60px; }
+            /* ขนาดยืนพื้นสำหรับมือถือเพื่อให้โลโก้เด่น */
+            .logo-container img { height: 100px; }
             .modal-content { width: 95%; }
             .modal-close { top: -45px; right: -5px; }
+            nav { padding: 10px 5%; }
         }
 
         @media (min-width: 769px) and (max-width: 1024px) {
             .modal-content { width: 90%; }
             .news-grid { grid-template-columns: repeat(2, 1fr); }
+            .logo-container img { height: 130px; }
         }
     </style>
 </head>
@@ -399,7 +399,7 @@
         </div>
         <ul class="nav-links">
             <li><a href="#news">นโยบาย</a></li>
-            <li><a href="#news">ข่าวสาร</a></li>
+          
             <li><a href="https://www.instagram.com/infinite8_mrv/" target="_blank">IG</a></li>
         </ul>
         <div class="hamburger" id="hamburger">
@@ -410,7 +410,7 @@
     <div class="mobile-menu-overlay" id="mobileMenu">
         <div class="menu-close-btn" onclick="toggleMenu()">&times;</div>
         <a href="#news" onclick="toggleMenu()">นโยบาย</a>
-        <a href="#news" onclick="toggleMenu()">ข่าวสาร</a>
+       
         <a href="https://www.instagram.com/infinite8_mrv/" target="_blank" onclick="toggleMenu()">Instagram</a>
     </div>
 
@@ -451,8 +451,8 @@
                     <div class="news-img-box"><img src="game.png" alt="game"></div>
                     <div class="news-info">
                         <div class="news-meta"><span style="color:var(--gold-solid)">นโยบาย</span><span>By Infinite 8</span></div>
-                        <h3 class="news-title">ยระดับความมันส์ของ E-Sports</h3>
-                        <p class="news-desc">ปรับปรุงระบบการแข่งขัน เพื่อความมันส์และความสนุกระดับสากล</p>
+                        <h3 class="news-title">ยกระดับความมันส์ของ E-Sports</h3>
+                        <p class="news-desc">ปรับปรุงระบบการแข่งขัน เพื่อความมันส์และความสนุกระดับสากล มีทั้ง Valorant , Free Fire , Roblox , Rov และอื่นๆ</p>
                     </div>
                 </div>
             </a>
@@ -462,22 +462,26 @@
                     <div class="news-info">
                         <div class="news-meta"><span style="color:var(--gold-solid)">นโยบาย</span><span>By Infinite 8</span></div>
                         <h3 class="news-title">การจัดกิจกรรมเพื่อความสนุกและพัฒนาทักษะ </h3>
-                        <p class="news-desc">เป็นการส่งต่อกิจกรรมจากรุ่นที่แล้ว เช่น พี่ผูกไทให้น้อง , Cover Dance , Rock No Drug และเพิ่มกิจกรรมต่างๆที่ส่งเสริมทักษะและความกล้าแสดงออก</p>
+                        <p class="news-desc">เป็นการส่งต่อกิจกรรมจากรุ่นที่แล้ว เช่น <br class="mobile-only">พี่ผูกไทให้น้อง , Cover Dance , Rock No Drug และเพิ่มกิจกรรมต่างๆที่ส่งเสริมทักษะและความกล้าแสดงออก</p>
                     </div>
                 </div>
             </a>
             <a href="page3.html" style="text-decoration:none; color:inherit;">
                 <div class="news-card">
-                    <div class="news-img-box"><img src="https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/bltd605a968a9805988/65a7f98888b7762699763784/VAL_PatchNotes_12.01_Banner.jpg" alt="patch"></div>
+                    <div class="news-img-box"><img src="marie.png" alt="patch"></div>
                     <div class="news-info">
-                        <div class="news-meta"><span style="color:var(--gold-solid)">DIGITAL</span><span>01 FEB 2026</span></div>
-                        <h3 class="news-title">ก้าวสู่ยุคดิจิทัลอย่างยั่งยืน</h3>
-                        <p class="news-desc">เปิด Roadmap การพัฒนาโครงสร้างพื้นฐานด้านเทคโนโลยีเพื่อประชาชน</p>
+                        <div class="news-meta"><span style="color:var(--gold-solid)">นโยบาย</span><span>By Infinite 8</span></div>
+                        <h3 class="news-title">การเรียนรู้และอื่นๆ</h3>
+                        <p class="news-desc">แนะแนวการศึกษาและเตรียมความพร้อม<br>เข้าสู่รั้วมหาวิทยาลัยเปิดรับฟังความคิดเห็นของทุกคนในโรงเรียน</p>
                     </div>
                 </div>
             </a>
         </div>
     </section>
+
+    <footer style="text-align: center; padding: 40px; color: #555; font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.05);">
+        ©MV หมายเลข 8 - THE INFINITE.
+    </footer>
 
     <script>
         // Navbar Scroll Effect
@@ -486,12 +490,14 @@
             const logo = document.getElementById('navLogo');
             if (window.scrollY > 50) {
                 nav.style.background = 'rgba(7, 11, 15, 0.98)';
-                nav.style.padding = '10px 5%';
-                logo.style.height = '60px';
+                nav.style.padding = '8px 5%';
+                // ตอนเลื่อนลงมา ให้โลโก้เล็กลงนิดเดียวเพื่อให้ยังคงดูพรีเมียม
+                logo.style.height = window.innerWidth > 768 ? '110px' : '85px';
             } else {
                 nav.style.background = 'linear-gradient(to bottom, rgba(0,0,0,0.9), transparent)';
-                nav.style.padding = '20px 5%';
-                logo.style.height = '80px';
+                nav.style.padding = '15px 5%';
+                // กลับไปใช้ขนาดตาม clamp ใน CSS
+                logo.style.height = ''; 
             }
         });
 
@@ -516,19 +522,18 @@
         const closeBtn = document.querySelector('.modal-close');
         const iframe = document.getElementById('ytVideo');
         
-        // YouTube Embed URL (ใช้ autoplay=1 เพื่อให้เล่นทันทีเมื่อกด)
         const youtubeUrl = "https://www.youtube.com/embed/q3_AXZVf2_8?autoplay=1&rel=0";
 
         playBtn.addEventListener('click', () => {
             modal.classList.add('active');
-            iframe.src = youtubeUrl; // ใส่ URL เมื่อกดเปิด
+            iframe.src = youtubeUrl; 
             document.body.classList.add('no-scroll');
             document.documentElement.classList.add('no-scroll');
         });
 
         const closeModal = () => {
             modal.classList.remove('active');
-            iframe.src = ""; // ล้าง URL เพื่อให้วิดีโอหยุดเล่น
+            iframe.src = ""; 
             if (!mobileMenu.classList.contains('active')) {
                 document.body.classList.remove('no-scroll');
                 document.documentElement.classList.remove('no-scroll');

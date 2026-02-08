@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แนะแนวอนาคต - Infinite 8 Golden Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@300;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #ff4655;
+            --dark: #0f1923;
+            --light: #ece8e1;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --gold-grad: linear-gradient(to bottom, #BF953F 0%, #FCF6BA 30%, #B38728 50%, #FBF5B7 70%, #AA771C 100%);
+            --gold-solid: #BF953F;
+        }
+
+        * {
+            margin: 0; padding: 0;
+            box-sizing: border-box;
+            font-family: 'Anuphan', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background: rgba(15, 25, 35, 0.98);
+            border-bottom: 1px solid rgba(191, 149, 63, 0.4);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .nav-logo { text-decoration: none; font-weight: 800; font-style: italic; font-size: 1.2rem; color: #fff; }
+        .back-link {
+            text-decoration: none; color: var(--gold-solid); font-weight: 700;
+            text-transform: uppercase; font-size: 0.75rem; border: 1px solid var(--gold-solid);
+            padding: 8px 20px; transition: var(--transition);
+        }
+        .back-link:hover { background: var(--gold-grad); color: #000; }
+
+        /* --- Animations --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 5%; }
+
+        .policy-row { 
+            display: flex; align-items: center; gap: 60px; margin-bottom: 100px;
+            animation: fadeInUp 1s ease-out forwards; 
+        }
+        .policy-row.reverse { flex-direction: row-reverse; }
+
+        /* --- Image/Video Frame --- */
+        .image-frame {
+            flex: 1; position: relative; border: 1px solid rgba(191, 149, 63, 0.3);
+            padding: 10px; background: rgba(255,255,255,0.05); overflow: hidden;
+            aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center;
+        }
+        .image-frame video, .image-frame img { 
+            width: 100%; height: 100%; display: block; object-fit: cover; transition: 0.5s; 
+        }
+        .image-frame video { opacity: 0.6; }
+        .image-frame:hover video { opacity: 1; transform: scale(1.05); }
+        .image-frame:hover img { transform: scale(1.05); }
+
+        .image-frame::before {
+            content: ""; position: absolute; top: -5px; left: -5px; width: 20px; height: 20px;
+            border-top: 3px solid var(--gold-solid); border-left: 3px solid var(--gold-solid); z-index: 2;
+        }
+
+        /* --- Typography (Responsive) --- */
+        .text-content { flex: 1; }
+        .gold-tag { color: var(--gold-solid); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; display: block; font-size: 0.9rem; }
+        .policy-title { 
+            font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 800; text-transform: uppercase; 
+            line-height: 1; margin-bottom: 25px; font-style: italic; 
+        }
+        .policy-desc { 
+            font-size: clamp(1rem, 2vw, 1.1rem); color: #a3a3a3; line-height: 1.8; 
+            margin-bottom: 30px; border-left: 3px solid var(--gold-solid); padding-left: 20px; 
+            text-align: left;
+        }
+        .neon { color: #fff; text-shadow: 0 0 10px rgba(191, 149, 63, 0.4); }
+
+        /* --- Responsive Logic --- */
+        .pc-only { display: inline; }
+        .mobile-only { display: none; }
+
+        /* --- Buttons --- */
+        .play-btn-inline {
+            background: var(--gold-grad); color: #000; border: none; padding: 12px 30px;
+            font-weight: 800; text-transform: uppercase; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 10px;
+            border-radius: 50px; transition: var(--transition);
+        }
+        .play-btn-inline:hover { background: #fff; transform: scale(1.05); box-shadow: 0 0 20px rgba(255,255,255,0.4); }
+
+        .btn-dark { 
+            display: inline-block; padding: 15px 40px; 
+            background: #0f1923; color: #ece8e1; 
+            text-decoration: none; font-weight: 800; 
+            text-transform: uppercase; transition: 0.3s; 
+        }
+        .btn-dark:hover { background: var(--gold-solid); color: #000; transform: translateY(-3px); }
+
+        /* --- Video Modal --- */
+        .video-modal {
+            display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px);
+            justify-content: center; align-items: center; padding: 20px;
+            opacity: 0; transition: opacity 0.4s ease;
+        }
+        .video-modal.active { display: flex; opacity: 1; }
+
+        .modal-content {
+            position: relative; width: 100%; 
+            max-width: 800px; max-height: 80vh; aspect-ratio: 16 / 9; 
+            border: 1.5px solid var(--gold-solid); background: #000;
+            transform: scale(0.9); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .video-modal.active .modal-content { transform: scale(1); }
+        .modal-content iframe { width: 100%; height: 100%; display: block; }
+
+        .close-modal {
+            position: absolute; top: -35px; right: 0; color: var(--gold-solid);
+            font-size: 1rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px;
+        }
+
+        /* --- Media Queries --- */
+        @media (max-width: 850px) {
+            .policy-row, .policy-row.reverse { flex-direction: column; text-align: center; gap: 30px; }
+            .policy-desc { border-left: none; padding-left: 0; max-width: 600px; margin: 0 auto 30px auto; text-align: center; }
+            .image-frame { order: -1; width: 100%; }
+            .play-btn-inline { justify-content: center; }
+            .pc-only { display: none !important; }
+            .mobile-only { display: inline !important; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 30px 5%; }
+            .policy-title { font-size: 2rem; }
+            .video-modal { padding: 10px; }
+            .close-modal { top: -30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-logo">INFINITE <span style="color: var(--gold-solid);">8</span></a>
+        <a href="index.html" class="back-link">กลับหน้าหลัก</a>
+    </nav>
+
+    <div class="container">
+        
+        <section class="policy-row">
+            <div class="text-content">
+                <span class="gold-tag">01 // FUTURE FOR YOU</span>
+                <h2 class="policy-title">แนะแนว<span style="background: var(--gold-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">อนาคต</span></h2>
+                <p class="policy-desc">
+                    <span class="neon">ก้าวแรกสู่มหาวิทยาลัยที่มั่นใจกว่าเดิม</span><br class="pc-only">
+                    โครงการแนะแนวการศึกษาและเตรียมความพร้อมมหาวิทยาลัย <br class="pc-only">
+                    <span class="mobile-only">จัดขึ้นเพื่อช่วยให้นักเรียนเข้าใจเส้นทางอนาคตของตัวเองมากขึ้น</span>
+                    <span class="pc-only">จัดขึ้นเพื่อช่วยให้นักเรียนเข้าใจเส้นทางอนาคตของตัวเองมากขึ้น <br class="pc-only">ว่าถ้าอยากเข้ามหาลัยต้องเตรียมอะไรบ้าง</span>
+                    <br class="pc-only">ต้องพัฒนาทักษะด้านไหน และวางแผนยังไงให้ไปถึงเป้าหมาย <br class="pc-only"><br class="mobile-only">โดยมีการเชิญวิทยากรผู้เชี่ยวชาญมาให้ความรู้และคําแนะนํา
+                </p>
+                
+                <button class="play-btn-inline" onclick="openVideo()">
+                    <span>▶</span> รับชมวิดีโอ
+                </button>
+            </div>
+            
+            <div class="image-frame">
+                <video autoplay muted loop playsinline>
+                    <source src="game.mp4" type="video/mp4">
+                </video>
+            </div>
+        </section>
+
+        <div id="videoModal" class="video-modal">
+            <div class="modal-content">
+                <div class="close-modal" onclick="closeVideo()">&times; <span>CLOSE</span></div>
+                <iframe id="youtubePlayer" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <section class="policy-row reverse" style="margin-top: 50px;">
+            <div class="text-content">
+                <span class="gold-tag">02 // THE EXPERIENCE</span>
+                <h2 class="policy-title">ยกระดับ<span style="color: var(--gold-solid);">ความมันส์</span></h2>
+                <p class="policy-desc">
+                    ยกระดับ E-Sports ในโรงเรียน สู่ความมันส์ <br>สร้างทั้งแรงบันดาลใจ ความมั่นใจ 
+                    <br>พร้อมการพากย์สุดมันส์และของรางวัลแก่ผู้ชนะ
+                </p>
+                <br>
+                <a href="#" class="btn-dark" style="border: 1px solid var(--gold-solid); background: transparent; color: var(--gold-solid);">⭡</a>
+            </div>
+            <div class="image-frame">
+                <img src="esports.png" alt="esports">
+            </div>
+        </section>
+
+    </div>
+
+    <footer style="text-align: center; padding: 40px; color: #555; font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.05);">
+        ©MV หมายเลข 8 - THE INFINITE.
+    </footer>
+
+    <script>
+        const modal = document.getElementById("videoModal");
+        const player = document.getElementById("youtubePlayer");
+        const videoID = "V3iJK6VlJbQ"; // ไอดี YouTube ของคุณ
+
+        function openVideo() {
+            modal.style.display = "flex";
+            // เพิ่ม autoplay=1 เพื่อให้เล่นทันทีที่เปิด
+            player.src = "https://www.youtube.com/embed/" + videoID + "?autoplay=1";
+            setTimeout(() => { modal.classList.add("active"); }, 10);
+            document.body.style.overflow = "hidden"; // ปิดการ scroll หน้าเว็บหลัก
+        }
+
+        function closeVideo() {
+            modal.classList.remove("active");
+            player.src = ""; // เคลียร์ src เพื่อหยุดวิดีโอทันที
+            setTimeout(() => {
+                modal.style.display = "none";
+                document.body.style.overflow = "auto"; // เปิดการ scroll หน้าเว็บหลัก
+            }, 400); 
+        }
+
+        // ปิดเมื่อคลิกนอกพื้นที่วิดีโอ
+        window.onclick = function(event) {
+            if (event.target == modal) { closeVideo(); }
+        }
+    </script>
+
+</body>
+</html>
